@@ -3,6 +3,11 @@ import av
 import cv2
 import numpy as np
 import mediapipe as mp
+import mediapipe as mp
+try:
+    from mediapipe import solutions as mp_solutions
+except ImportError:
+    from mediapipe.python import solutions as mp_solutions
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
 
@@ -76,12 +81,11 @@ def draw_top_toolbar(img, active_color_idx):
             cv2.rectangle(img, (bx1 - 3, by1 - 3), (bx2 + 3, by2 + 3), (255, 255, 255), 3, cv2.LINE_AA)
         else:
             cv2.rectangle(img, (bx1, by1), (bx2, by2), (90, 100, 115), 1, cv2.LINE_AA)
-
 class AirDrawProcessor(VideoProcessorBase):
     def __init__(self):
-        self.mp_hands = mp.solutions.hands
-        self.mp_draw = mp.solutions.drawing_utils
-        self.mp_styles = mp.solutions.drawing_styles
+        self.mp_hands = mp_solutions.hands
+        self.mp_draw = mp_solutions.drawing_utils
+        self.mp_styles = mp_solutions.drawing_styles
         self.hands = self.mp_hands.Hands(
             max_num_hands=1,
             model_complexity=0,
